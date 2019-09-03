@@ -1,0 +1,32 @@
+{
+  "contacts": [
+    {
+      "phone": "111-111-111",
+      "id": "1",
+      "name": "Jam Doe",
+      "email": "jam@gmail.com",
+      "type": "personal"
+    },
+    {
+      "phone": "222-222-222",
+      "id": "2",
+      "name": "Sam Smith",
+      "email": "sam@gmail.com",
+      "type": "personal"
+    },
+    {
+      "phone": "333-333-333",
+      "id": "3",
+      "name": "Ray Allen",
+      "email": "ray@gmail.com",
+      "type": "professional"
+    },
+    {
+      "name": "Yatou",
+      "email": "yatou@123.ca",
+      "phone": "19841323413",
+      "type": "professional",
+      "id": "f4dc942c-fa1b-46fe-ac12-beea8f6b16ff"
+    }
+  ]
+}
