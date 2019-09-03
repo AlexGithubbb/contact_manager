@@ -38,7 +38,21 @@ export const addContact = contact => async dispatch => {
 };
 
 // Update Contact
-
+export const updateContact = contact => async dispatch => {
+  try {
+    const res = await axios.put(`/contacts/${contact.id}`, { ...contact });
+    console.log(res.data);
+    dispatch({
+      type: actionType.UPDATE_CONTACT,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: actionType.CONTACT_ERROR,
+      payload: err.response.data
+    });
+  }
+};
 // delete contact
 export const deleteContact = id => async dispatch => {
   try {

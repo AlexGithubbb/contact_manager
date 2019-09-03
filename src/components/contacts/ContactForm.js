@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
-import { addContact } from '../../redux/contacts/contactsAction';
+import React, { useState, useEffect } from 'react';
+import {
+  addContact,
+  updateContact,
+  clearCurrent
+} from '../../redux/contacts/contactsAction';
 import { connect } from 'react-redux';
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = ({
+  contact: { current },
+  addContact,
+  clearCurrent,
+  updateContact
+}) => {
   const [contact, setContact] = useState({
     name: '',
     email: '',
     phone: '',
     type: 'personal'
   });
+
+  // we want it run first time and keep update the state if 'current' changes
+  useEffect(() => {
+    if (current !== null) {
+      setContact(current);
+    } else {
+      setContact({
+        name: '',
+        email: '',
+        phone: '',
+        type: 'personal'
+      });
+    }
+  }, [current]); // keep updating state if 'current' changes
 
   const { name, email, phone, type } = contact;
 
@@ -18,7 +41,11 @@ const ContactForm = ({ addContact }) => {
   const onSubmit = e => {
     e.preventDefault();
     // console.log(contact);
-    addContact(contact);
+    if (!current) {
+      addContact(contact);
+    } else {
+      updateContact(contact);
+    }
     setContact({
       name: '',
       email: '',
@@ -26,9 +53,15 @@ const ContactForm = ({ addContact }) => {
       type: 'personal'
     });
   };
+
+  const clearAll = () => {
+    clearCurrent();
+  };
   return (
     <form onSubmit={onSubmit}>
-      <h2 className='text-primary'>Contact Form</h2>
+      <h2 className='text-primary'>
+        {current ? 'Edit Contact' : 'Add Contact'}
+      </h2>
       <input
         type='text'
         name='name'
@@ -69,13 +102,24 @@ const ContactForm = ({ addContact }) => {
       <input
         type='submit'
         className='btn btn-block btn-primary'
-        value='Add Contact'
+        value={current ? 'Update Contact' : 'Add Contact'}
       />
+      {current && (
+        <div>
+          <button className='btn btn-light btn-block' onClick={clearAll}>
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   );
 };
 
+const mapStateToProps = state => ({
+  contact: state.contact
+});
+
 export default connect(
-  null,
-  { addContact }
+  mapStateToProps,
+  { addContact, updateContact, clearCurrent }
 )(ContactForm);
